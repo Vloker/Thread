@@ -48,7 +48,7 @@ export default function Comment() {
     try {
       await dispatch(postComment({ threadId: id, content: newComment }));
       setNewComment('');
-      await dispatch(getDetailsThread(id)); // Refresh thread details to show the new comment
+      await dispatch(getDetailsThread(id));
     } catch (error) {
       console.log(error);
     }

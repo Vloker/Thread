@@ -14,8 +14,8 @@ export const getDetailsThread = createAsyncThunk('users/getDetailsThread', async
     return response.data.data.detailThread;
 });
 
-export const postThread = createAsyncThunk('threads/postThread', async (data) => {
-    const response = await axios.post(`${BASE_URL}/threads`, data, {
+export const postThread = createAsyncThunk('threads/postThread', async ({title, body, category}) => {
+    const response = await axios.post(`${BASE_URL}/threads`, { title, body, category }, {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`,
         },
