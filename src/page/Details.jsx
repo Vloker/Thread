@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetailsThread, selectThreadById } from '../redux/features/User';
 import { useParams } from 'react-router-dom';
+import Avatar from '../components/Avatar';
 import Comment from '../components/Comment';
 
 function Details() {
@@ -9,10 +10,14 @@ function Details() {
   const { id } = useParams();
   const user = useSelector((state) => selectThreadById(state, id));
   const [formattedUser, setFormattedUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchDetails = async () => {
+      setIsLoading(true);
       await dispatch(getDetailsThread(id));
+
+      setIsLoading(false);
     };
 
     fetchDetails();
@@ -31,7 +36,7 @@ function Details() {
     }
   }, [user]);
 
-  if (!formattedUser) {
+  if (isLoading) {
     return <div className="text-center flex justify-center items-center h-screen">Loading...</div>;
   }
 
@@ -48,6 +53,10 @@ function Details() {
         <div className="flex flex-col gap-2 ps-5">
           <div>
             <div className="flex flex-col gap-2" id="thread">
+              <div className='flex gap-2 items-center'>
+                <Avatar src={formattedUser.owner.avatar} name={formattedUser.owner.name} />
+                <p className='text-xl '>{formattedUser.owner.name}</p>
+              </div>
               <p className="font-semibold text-xl">{formattedUser.title}</p>
               <div>
                 <p className="text-md">{formattedUser.body}</p>

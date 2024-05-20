@@ -9,17 +9,20 @@ export default function Comment() {
   const thread = useSelector((state) => selectThreadById(state, id)) || { comments: [] };
   const [newComment, setNewComment] = useState('');
   const [formattedThread, setFormattedThread] = useState(null);
+  const [isDetailsLoading, setIsDetailsLoading] = useState(true);
 
   useEffect(() => {
     const fetchDetails = async () => {
+      setIsDetailsLoading(true);
       await dispatch(getDetailsThread(id));
+      setIsDetailsLoading(false);
     };
 
     fetchDetails();
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (thread) {
+    if (thread && thread.comments) {
       const formattedComments = thread.comments.map(comment => {
         const div = document.createElement('div');
         div.innerHTML = comment.content;
@@ -54,29 +57,37 @@ export default function Comment() {
     }
   };
 
-  if (!formattedThread) {
+  if (isDetailsLoading) {
     return <div className="text-center flex justify-center items-center h-screen">Loading...</div>;
+  }
+
+  if (!formattedThread) {
+    return <div className="text-center flex justify-center items-center h-screen">Thread not found</div>;
   }
 
   return (
     <div>
       <div className='flex gap-2 items-center'>
         <p className='text-blue-400 text-md'>Comment</p>
-        <p className='text-xs'>dibuat oleh <span className='text-blue-600 text-xs'>{formattedThread.owner.name}</span></p>
+        {formattedThread.owner && (
+          <p className='text-xs'>dibuat oleh <span className='text-blue-600 text-xs'>{formattedThread.owner.name}</span></p>
+        )}
       </div>
 
       <div className='border rounded-lg py-2 px-1 mt-1'>
         {formattedThread.comments.map((comment) => (
           <div key={comment.id} className="p-2 flex flex-col items-start">
             <div className="flex items-center">
-              {comment.owner.avatar && (
+              {comment.owner && comment.owner.avatar && (
                 <img
                   src={comment.owner.avatar}
                   alt="User Avatar"
                   className="w-5 h-5 rounded-full"
                 />
               )}
-              <span className="ml-2 text-sm">{comment.owner.name}</span>
+              {comment.owner && (
+                <span className="ml-2 text-sm">{comment.owner.name}</span>
+              )}
             </div>
             <div className="mt-1 text-sm">
               {comment.content.split('\n').map((line, idx) => (

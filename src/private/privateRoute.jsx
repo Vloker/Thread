@@ -28,7 +28,11 @@ function PrivateRoute({ component: Component, ...rest }) {
     );
   }
 
-  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/Login" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/Login" />;
+  }
+
+  return <Component {...rest} />;
 }
 
 export default PrivateRoute;
