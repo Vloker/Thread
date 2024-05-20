@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getThreads, selectAllThreads, getDetailsThread } from '../redux/features/User';
+import { getThreads, selectAllThreads  } from '../redux/features/User';
 import NavbarComponent from '../components/Navbar';
 import ButtonThread from '../components/ButtonThread';
 import { Link } from 'react-router-dom';
@@ -8,41 +8,25 @@ import { Link } from 'react-router-dom';
 const Dashboard = () => {
     const dispatch = useDispatch();
     const usersData = useSelector(selectAllThreads);
-    const [formattedData, setFormattedData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [processedUsersData, setProcessedUsersData] = useState([]);
 
     useEffect(() => {
         dispatch(getThreads());
     }, [dispatch]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const formattedThreads = [];
-
-            for (const user of usersData) {
-                const threadDetails = await dispatch(getDetailsThread(user.id));
-                const ownerName = threadDetails.payload.owner.name;
+        if (usersData) {
+            const processedData = usersData.map(user => {
                 const div = document.createElement('div');
                 div.innerHTML = user.body;
                 const text = div.textContent || div.innerText || '';
-                const formattedThread = {
-                    ...user,
-                    body: text,
-                    ownerName: ownerName
-                };
-                formattedThreads.push(formattedThread);
-            }
-
-            setFormattedData(formattedThreads);
-            setIsLoading(false);
-        };
-
-        if (usersData.length > 0) {
-            fetchData();
-        }else{
+                return { ...user, body: text };
+            });
+            setProcessedUsersData(processedData);
             setIsLoading(false);
         }
-    }, [dispatch, usersData]);
+    }, [usersData]);
 
     return (
         <div className='xl:container xl:mx-auto flex flex-col justify-center items-center p-3 absolute' id='dashboard'>
@@ -56,7 +40,7 @@ const Dashboard = () => {
                         <div className='flex flex-col gap-2 ps-5 mb-3' id='kategori'>
                             <p className='font-semibold text-xl'>Kategori</p>
                             <div className='flex gap-2 break-after-column'>
-                                {formattedData.slice(0, 7).map((user) => (
+                                {processedUsersData.slice(0, 7).map((user) => (
                                     <div key={user.id} className='border border-black p-1 text-xs rounded-md text-blue-500'>
                                         #{user.category}
                                     </div>
@@ -65,7 +49,7 @@ const Dashboard = () => {
                         </div>
                         <div className='flex flex-col gap-2 ps-5'>
                             <p className='font-semibold text-xl'>Discussion</p>
-                            {formattedData.slice(0, 10).map((user) => (
+                            {processedUsersData.slice(0, 10).map((user) => (
                                 <div key={user.id}>
                                     <div className='flex flex-col gap-2' id='thread'>
                                         <div>
@@ -77,7 +61,6 @@ const Dashboard = () => {
                                         <p className='text-xs'>{user.createdAt}</p>
                                         <div className='flex gap-2 items-center'>
                                             <p className='text-sm text-blue-600'>Comment <span className='text-xs text-red-600'>{user.totalComments}</span></p>
-                                            <p className='text-xs'>dibuat oleh <span className='text-blue-600 text-xs'>{user.ownerName}</span></p>
                                         </div>
                                     </div>
                                     <hr className='my-2 border-t-2 border-gray-300'></hr>

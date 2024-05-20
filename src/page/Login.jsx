@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, selectUserError} from '../redux/features/User';
 
 function Login() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const error = useSelector(selectUserError);
 
@@ -27,7 +26,7 @@ function Login() {
       const resultAction = await dispatch(login({ email, password }));
       if (login.fulfilled.match(resultAction)) {
         alert('Login Berhasil');
-        navigate('/');
+        window.location.href = '/';
       } else {
         alert('Terjadi kesalahan');
       }
