@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getThreads, selectAllThreads  } from '../redux/features/User';
+import { getThreads, selectAllThreads } from '../redux/features/User';
 import NavbarComponent from '../components/Navbar';
 import ButtonThread from '../components/ButtonThread';
 import { Link } from 'react-router-dom';
