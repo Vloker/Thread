@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDetailsThread, selectThreadById } from '../redux/features/User';
+import { getDetailsThread, selectDetailsThread } from '../redux/features/User';
 import { useParams } from 'react-router-dom';
 import Avatar from '../components/Avatar';
 import Comment from '../components/Comment';
@@ -8,7 +8,7 @@ import Comment from '../components/Comment';
 function Details() {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const user = useSelector((state) => selectThreadById(state, id));
+  const user = useSelector((state) => selectDetailsThread(state, id));
   const [formattedUser, setFormattedUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
