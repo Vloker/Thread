@@ -10,10 +10,10 @@ export const getThreads = createAsyncThunk('threads/getThreads', async () => {
 
 export const getDetailsThread = createAsyncThunk('threads/getDetailsThread', async (threadId) => {
     const response = await axios.get(`${BASE_URL}/threads/${threadId}`);
-    return response.data.data.detailThread;
+    return { threadId, ...response.data.data.detailThread };
 });
 
-export const postThread = createAsyncThunk('threads/postThread', async ({title, body, category}) => {
+export const postThread = createAsyncThunk('threads/postThread', async ({ title, body, category }) => {
     const response = await axios.post(`${BASE_URL}/threads`, { title, body, category }, {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`,
@@ -68,10 +68,16 @@ export const register = createAsyncThunk('users/register', async ({ name, email,
 const threadAdapter = createEntityAdapter({
     selectId: (thread) => thread.id
 });
+const threadDetailsAdapter = createEntityAdapter({
+    selectId: (threadDetail) => threadDetail.threadId
+});
 
 const ThreadSlice = createSlice({
     name: 'threads',
-    initialState: threadAdapter.getInitialState(),
+    initialState: {
+        ...threadAdapter.getInitialState(),
+        threadDetails: threadDetailsAdapter.getInitialState(),
+    },
     reducers: {},
     extraReducers: (builder) => {
         builder
@@ -88,30 +94,9 @@ const ThreadSlice = createSlice({
                     thread.comments = thread.comments || [];
                     thread.comments.push(comment);
                 }
-            });
-    }
-});
-
-const ThreadDetailsSlice = createSlice({
-    name: 'threadsDetails',
-    initialState: {
-        thread: null,
-        status: 'idle',
-        error: null,
-    },
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(getDetailsThread.pending, (state) => {
-                state.status = 'loading';
             })
             .addCase(getDetailsThread.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.thread = action.payload;
-            })
-            .addCase(getDetailsThread.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
+                threadDetailsAdapter.setOne(state.threadDetails, action.payload);
             });
     }
 });
@@ -133,10 +118,12 @@ const UserSlice = createSlice({
             .addCase(getUsers.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.user = action.payload;
+                state.isLoggedIn = true;
             })
             .addCase(getUsers.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+                state.isLoggedIn = false;
             })
             .addCase(login.pending, (state) => {
                 state.status = 'loading';
@@ -144,10 +131,12 @@ const UserSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.user = action.payload;
+                state.isLoggedIn = true;
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload.message;
+                state.isLoggedIn = false;
             })
             .addCase(register.pending, (state) => {
                 state.status = 'loading';
@@ -162,8 +151,8 @@ const UserSlice = createSlice({
     },
 });
 
-export const { selectAll: selectAllThreads, selectById: selectThreadById } = threadAdapter.getSelectors((state) => state.threads);
-export const selectDetailsThread = (state) => state.threadsDetails.thread;
+export const { selectAll: selectAllThreads } = threadAdapter.getSelectors(state => state.threads);
+export const { selectById: selectThreadDetailsById } = threadDetailsAdapter.getSelectors(state => state.threads.threadDetails);
 
 export const selectUser = (state) => state.users.user;
 export const selectUserStatus = (state) => state.users.status;
@@ -171,7 +160,6 @@ export const selectUserError = (state) => state.users.error;
 export const selectIsLoggedIn = (state) => state.users.isLoggedIn;
 
 export const reducer = {
-    threadsDetails: ThreadDetailsSlice.reducer,
     threads: ThreadSlice.reducer,
     users: UserSlice.reducer,
 };

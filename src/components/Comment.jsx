@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getDetailsThread, selectDetailsThread, postComment } from '../redux/features/User';
+import { getDetailsThread, selectThreadDetailsById, postComment } from '../redux/features/User';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Comment() {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const thread = useSelector((state) => selectDetailsThread(state, id)) || { comments: [] };
+  const thread = useSelector((state) => selectThreadDetailsById(state, id)) || { comments: [] };
   const [newComment, setNewComment] = useState('');
   const [formattedThread, setFormattedThread] = useState(null);
   const [isDetailsLoading, setIsDetailsLoading] = useState(true);
