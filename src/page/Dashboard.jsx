@@ -74,7 +74,7 @@ const Dashboard = () => {
                     <div className='flex flex-col gap-2 ps-5 mb-3' id='kategori'>
                         <p className='font-semibold text-xl'>Kategori</p>
                         <div className='flex gap-2 break-after-column'>
-                            {processedUsersData.slice(0, 7).map((user) => (
+                            {processedDetailsData.slice(0, 7).map((user) => (
                                 <div key={user.id} className='border border-black p-1 text-xs rounded-md text-blue-500'>
                                     #{user.category}
                                 </div>

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { register } from '../redux/features/User';
-import { selectUserError } from '../redux/features/User';
 
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const error = useSelector(selectUserError);
 
   const [state, setState] = useState({
     email: '',

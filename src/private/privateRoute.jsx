@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types"; // Import prop-types package
 import { getAccessToken } from "../config/Auth";
 import { Navigate } from "react-router-dom";
 
@@ -34,5 +35,10 @@ function PrivateRoute({ component: Component, ...rest }) {
 
   return <Component {...rest} />;
 }
+
+
+PrivateRoute.propTypes = {
+  component: PropTypes.elementType.isRequired,
+};
 
 export default PrivateRoute;

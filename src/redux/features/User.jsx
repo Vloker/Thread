@@ -23,16 +23,12 @@ export const postThread = createAsyncThunk('threads/postThread', async ({ title,
 });
 
 export const postComment = createAsyncThunk('threads/postComment', async ({ threadId, content }) => {
-    try {
-        const response = await axios.post(`${BASE_URL}/threads/${threadId}/comments`, { content }, {
-            headers: {
-                Authorization: `Bearer ${getAccessToken()}`,
-            },
-        });
-        return { threadId, comment: response.data.data.comment };
-    } catch (error) {
-        throw error;
-    }
+    const response = await axios.post(`${BASE_URL}/threads/${threadId}/comments`, { content }, {
+        headers: {
+            Authorization: `Bearer ${getAccessToken()}`,
+        },
+    });
+    return { threadId, comment: response.data.data.comment };
 });
 
 // User
@@ -45,24 +41,16 @@ export const getUsers = createAsyncThunk('users/getUsers', async () => {
     return response.data.data.user;
 });
 
-export const login = createAsyncThunk('users/login', async ({ email, password }, { rejectWithValue }) => {
-    try {
-        const response = await axios.post(`${BASE_URL}/login`, { email, password });
-        const data = response.data.data;
-        setAccessToken(data.token);
-        return data;
-    } catch (error) {
-        return rejectWithValue(error.response.data);
-    }
+export const login = createAsyncThunk('users/login', async ({ email, password }) => {
+    const response = await axios.post(`${BASE_URL}/login`, { email, password });
+    const data = response.data.data;
+    setAccessToken(data.token);
+    return data;
 });
 
-export const register = createAsyncThunk('users/register', async ({ name, email, password }, { rejectWithValue }) => {
-    try {
-        await axios.post(`${BASE_URL}/register`, { name, email, password });
-        return { success: true };
-    } catch (error) {
-        return rejectWithValue(error.response.data);
-    }
+export const register = createAsyncThunk('users/register', async ({ name, email, password }) => {
+    await axios.post(`${BASE_URL}/register`, { name, email, password });
+    return { success: true };
 });
 
 const threadAdapter = createEntityAdapter({

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetailsThread, selectThreadDetailsById } from '../redux/features/User';
 import { useParams } from 'react-router-dom';
-import Avatar from '../components/Avatar';
 import Comment from '../components/Comment';
 
 function Details() {
@@ -54,7 +53,11 @@ function Details() {
           <div>
             <div className="flex flex-col gap-2" id="thread">
               <div className='flex gap-2 items-center'>
-                <Avatar src={formattedUser.owner.avatar} name={formattedUser.owner.name} />
+                <img 
+                  src={formattedUser.owner.avatar} 
+                  name={formattedUser.owner.name} 
+                  className="inline-block h-9 w-9 rounded-full"
+                />
                 <p className='text-xl '>{formattedUser.owner.name}</p>
               </div>
               <p className="font-semibold text-xl">{formattedUser.title}</p>
