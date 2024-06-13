@@ -31,28 +31,6 @@ export const postComment = createAsyncThunk('threads/postComment', async ({ thre
     return { threadId, comment: response.data.data.comment };
 });
 
-// User
-export const getUsers = createAsyncThunk('users/getUsers', async () => {
-    const response = await axios.get(`${BASE_URL}/users/me`, {
-        headers: {
-            Authorization: `Bearer ${getAccessToken()}`,
-        },
-    });
-    return response.data.data.user;
-});
-
-export const login = createAsyncThunk('users/login', async ({ email, password }) => {
-    const response = await axios.post(`${BASE_URL}/login`, { email, password });
-    const data = response.data.data;
-    setAccessToken(data.token);
-    return data;
-});
-
-export const register = createAsyncThunk('users/register', async ({ name, email, password }) => {
-    await axios.post(`${BASE_URL}/register`, { name, email, password });
-    return { success: true };
-});
-
 const threadAdapter = createEntityAdapter({
     selectId: (thread) => thread.id
 });
@@ -88,6 +66,31 @@ const ThreadSlice = createSlice({
             });
     }
 });
+
+
+
+// User
+export const getUsers = createAsyncThunk('users/getUsers', async () => {
+    const response = await axios.get(`${BASE_URL}/users/me`, {
+        headers: {
+            Authorization: `Bearer ${getAccessToken()}`,
+        },
+    });
+    return response.data.data.user;
+});
+
+export const login = createAsyncThunk('users/login', async ({ email, password }) => {
+    const response = await axios.post(`${BASE_URL}/login`, { email, password });
+    const data = response.data.data;
+    setAccessToken(data.token);
+    return data;
+});
+
+export const register = createAsyncThunk('users/register', async ({ name, email, password }) => {
+    await axios.post(`${BASE_URL}/register`, { name, email, password });
+    return { success: true };
+});
+
 
 const UserSlice = createSlice({
     name: 'users',
