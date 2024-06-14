@@ -11,7 +11,7 @@ describe("Login", () => {
   // Test case 1
     it("should display login page correctly", () => {
 
-      cy.visit("http://localhost:5173/login");
+      cy.visit("http://localhost:5173/Login");
 
       cy.get('input[name="email"]').should("be.visible");
       cy.get('input[name="password"]').should("be.visible");
@@ -20,7 +20,7 @@ describe("Login", () => {
 
     // Test case 2
     it("should display alert when email is empty", () => {
-      cy.visit("http://localhost:5173/login");
+      cy.visit("http://localhost:5173/Login");
 
       cy.on('window:alert', (str) => {
         expect(str).to.equal('"id" is not allowed to be empty');
@@ -29,7 +29,7 @@ describe("Login", () => {
 
     // Test case 3
     it("should display alert when password is empty", () => {
-      cy.visit("http://localhost:5173/login");
+      cy.visit("http://localhost:5173/Login");
 
       cy.get('input[name="email"]').type("a@a.com");
 
@@ -42,7 +42,7 @@ describe("Login", () => {
 
     // Test case 4
     it("should display alert when email and password are wrong", () => {
-      cy.visit("http://localhost:5173/login");
+      cy.visit("http://localhost:5173/Login");
 
       cy.get('input[name="email"]').type("rahmat");
 
@@ -57,7 +57,7 @@ describe("Login", () => {
 
     // Test case 5
     it("should display homepage when email and password are correct", () => {
-      cy.visit("http://localhost:5173/login");
+      cy.visit("http://localhost:5173/Login");
 
       cy.get('input[name="email"]').type("vxc@gmail.com");
 

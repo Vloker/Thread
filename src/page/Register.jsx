@@ -32,7 +32,7 @@ function Register() {
         email: '',
         password: '',
       });
-      navigate('/login');
+      navigate('/Login');
     } else {
       if (resultAction.payload.message === "Email sudah terdaftar") {
         alert("Email sudah terdaftar. Silakan gunakan email lain.");
