@@ -15,7 +15,7 @@ export default function Thread() {
     try {
       await dispatch(postThread(threadData));
       alert('Thread Berhasil');
-      window.location.href = '/Home';
+      window.location.href = '/';
     } catch (error) {
       console.error('Error creating thread:', error);
     }

@@ -7,6 +7,7 @@
 
 
 import { postThread, ThreadSlice, threadAdapter } from '../redux/features/User'; 
+import { describe, it, expect } from 'vitest';
 
 describe('Threads Reducer - postThread', () => {
   const initialState = threadAdapter.getInitialState();

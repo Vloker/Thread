@@ -4,8 +4,8 @@
  * - LogoutButton component
  *   - should render correctly
  */
-
-import { describe, expect } from 'vitest';
+import React from 'react';
+import { describe, expect, it } from 'vitest';
 import Logout from '../components/Logout';
 import { render, screen } from '@testing-library/react';
 
