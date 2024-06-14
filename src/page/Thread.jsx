@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postThread } from '../redux/features/User';
 
+
 export default function Thread() {
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
