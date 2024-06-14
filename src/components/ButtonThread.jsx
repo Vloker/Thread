@@ -1,10 +1,9 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
 
 function ButtonThread() {
 
   const handleClick = () => {
-    Navigate('/thread')
+    window.location.href = '/Thread'
   }
 
   return (
