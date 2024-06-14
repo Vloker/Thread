@@ -4,7 +4,7 @@
  * - ButtonThread component
  *   - should render correctly
  */
-
+import React from 'react';
 import { describe, expect, test, beforeEach } from 'vitest';
 import ButtonThread from '../components/ButtonThread';
 import { render } from '@testing-library/react';

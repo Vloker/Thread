@@ -6,7 +6,7 @@
  */
 
 
-import { describe } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { getThreads } from '../redux/features/User'; 
 import { ThreadSlice } from '../redux/features/User'; 
 
@@ -21,7 +21,7 @@ describe('Threads Reducer - getThreads', () => {
     const threads = [{ id: 1, title: 'Thread 1' }, { id: 2, title: 'Thread 2' }];
     const state = ThreadSlice.reducer(initialState, getThreads.fulfilled(threads));
  
-    
+
     expect(state.loading).toEqual('idle');
     expect(state.error).toBeNull();
     expect(state.entities[1]).toEqual({ id: 1, title: 'Thread 1' });
