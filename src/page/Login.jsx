@@ -26,7 +26,7 @@ function Login() {
       const resultAction = await dispatch(login({ email, password }));
       if (login.fulfilled.match(resultAction)) {
         alert('Login Berhasil');
-        window.location.href = '/Home';
+        window.location.href = '/';
       } else {
         alert('Terjadi kesalahan');
       }

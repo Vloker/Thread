@@ -65,7 +65,7 @@ describe("Login", () => {
 
       cy.get('button').contains(/^Login$/).click();
 
-      cy.url().should('include', '/Home');
+      cy.url().should('include', '/');
 
       cy.wait(10000);
 
