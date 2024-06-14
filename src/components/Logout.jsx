@@ -9,7 +9,8 @@ function Logout() {
 
     return (
         <button
-            className='bg-red-500 hover:bg-red-700 rounded-md text-white text-sm py-1 px-3' 
+            className='bg-red-500 hover:bg-red-700 rounded-md text-white text-sm py-1 px-3'
+            name='logout'
             onClick={handleLogout}>Logout
         </button>
     )

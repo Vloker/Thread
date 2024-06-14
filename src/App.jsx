@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={PrivateRoute({ component: Dashboard })} />
+        <Route path="/Home" element={PrivateRoute({ component: Dashboard })} />
         <Route path="/Details/:id" element={PrivateRoute({ component: Details })} />
         <Route path="/Thread" element={PrivateRoute({ component: Thread })} />
         <Route path="/Login" element={<Login />} />

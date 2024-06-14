@@ -1,6 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { BASE_URL, getAccessToken, setAccessToken } from '../../config/Auth';
+import axios from 'axios';
 
 // Threads
 export const getThreads = createAsyncThunk('threads/getThreads', async () => {
@@ -31,14 +31,14 @@ export const postComment = createAsyncThunk('threads/postComment', async ({ thre
     return { threadId, comment: response.data.data.comment };
 });
 
-const threadAdapter = createEntityAdapter({
+export const threadAdapter = createEntityAdapter({
     selectId: (thread) => thread.id
 });
-const threadDetailsAdapter = createEntityAdapter({
+export const threadDetailsAdapter = createEntityAdapter({
     selectId: (threadDetail) => threadDetail.threadId
 });
 
-const ThreadSlice = createSlice({
+export const ThreadSlice = createSlice({
     name: 'threads',
     initialState: {
         ...threadAdapter.getInitialState(),
@@ -92,7 +92,7 @@ export const register = createAsyncThunk('users/register', async ({ name, email,
 });
 
 
-const UserSlice = createSlice({
+export const UserSlice = createSlice({
     name: 'users',
     initialState: {
         user: null,
