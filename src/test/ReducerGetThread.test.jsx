@@ -20,7 +20,8 @@ describe('Threads Reducer - getThreads', () => {
   it('should handle getThreads fulfilled state', () => {
     const threads = [{ id: 1, title: 'Thread 1' }, { id: 2, title: 'Thread 2' }];
     const state = ThreadSlice.reducer(initialState, getThreads.fulfilled(threads));
-
+ 
+    
     expect(state.loading).toEqual('idle');
     expect(state.error).toBeNull();
     expect(state.entities[1]).toEqual({ id: 1, title: 'Thread 1' });

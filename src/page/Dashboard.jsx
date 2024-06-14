@@ -26,7 +26,7 @@ const Dashboard = () => {
                 for (let i = 0; i < usersData.length; i++) {
                     setTimeout(async () => {
                         await dispatch(getDetailsThread(usersData[i].id));
-                    }, i * 1000);  // Delay each request by 1 second
+                    }, i * 2000);  // Delay each request by 1 second
                 }
             }
         };
